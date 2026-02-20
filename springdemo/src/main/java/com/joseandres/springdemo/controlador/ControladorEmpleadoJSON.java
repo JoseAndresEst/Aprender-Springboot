@@ -1,17 +1,26 @@
 package com.joseandres.springdemo.controlador;
 
 import com.joseandres.springdemo.modelo.Empleado;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.joseandres.springdemo.servicio.ServicioEmpleado;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/empleados")
 public class ControladorEmpleadoJSON {
 
+    @Autowired
+    private ServicioEmpleado servicioEmpleado;
+
+    @GetMapping
+    public List<Empleado> listar() {
+        return servicioEmpleado.obtenerEmpleados();
+    }
+
     @PostMapping
-    public Empleado crearEmpleado(@RequestBody Empleado empleado){
-        return empleado;
+    public Empleado crear(@RequestBody Empleado u) {
+        return servicioEmpleado.guardar(u);
     }
 }
